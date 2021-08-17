@@ -107,7 +107,7 @@ export class FirebaseRemoteConfigWeb
 }
 
 const FirebaseRemoteConfig = registerPlugin<FirebaseRemoteConfigWeb>(
-  "FirebaseAnalytics",
+  "FirebaseRemoteConfig",
   {
     web: () => new FirebaseRemoteConfigWeb(),
   }
