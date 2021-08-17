@@ -6,10 +6,11 @@ import android.Manifest;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import com.getcapacitor.JSObject;
-import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
+import com.getcapacitor.annotation.Permission;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -17,12 +18,18 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 import java.util.Collections;
 
-@NativePlugin(
+@CapacitorPlugin(
+  name = "FirebaseRemoteConfig",
   permissions = {
-    Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.INTERNET,
+    @Permission(
+      strings = { Manifest.permission.ACCESS_NETWORK_STATE },
+      alias = "access_network_state"
+    ),
+    @Permission(strings = { Manifest.permission.INTERNET }, alias = "internet"),
   }
 )
 public class FirebaseRemoteConfig extends Plugin {
+
   public static final String TAG = "FirebaseRemoteConfig";
 
   private com.google.firebase.remoteconfig.FirebaseRemoteConfig mFirebaseRemoteConfig;
@@ -50,11 +57,10 @@ public class FirebaseRemoteConfig extends Plugin {
       .addOnCompleteListener(
         bridge.getActivity(),
         new OnCompleteListener<Void>() {
-
           @Override
           public void onComplete(@NonNull Task<Void> task) {
             if (task.isSuccessful()) {
-              call.success();
+              call.resolve();
             } else if (task.isCanceled()) {
               call.reject(task.getException().getMessage());
             } else {
@@ -71,11 +77,10 @@ public class FirebaseRemoteConfig extends Plugin {
       .addOnCompleteListener(
         bridge.getActivity(),
         new OnCompleteListener<Boolean>() {
-
           @Override
           public void onComplete(@NonNull Task<Boolean> task) {
             if (task.isSuccessful()) {
-              call.success();
+              call.resolve();
             } else if (task.isCanceled()) {
               call.reject(task.getException().getMessage());
             } else {
@@ -92,11 +97,10 @@ public class FirebaseRemoteConfig extends Plugin {
       .addOnCompleteListener(
         bridge.getActivity(),
         new OnCompleteListener<Boolean>() {
-
           @Override
           public void onComplete(@NonNull Task<Boolean> task) {
             if (task.isSuccessful()) {
-              call.success();
+              call.resolve();
             } else if (task.isCanceled()) {
               call.reject(task.getException().getMessage());
             } else {
@@ -107,7 +111,6 @@ public class FirebaseRemoteConfig extends Plugin {
       )
       .addOnFailureListener(
         new OnFailureListener() {
-
           @Override
           public void onFailure(@NonNull Exception e) {
             call.reject(e.getLocalizedMessage());
@@ -118,13 +121,13 @@ public class FirebaseRemoteConfig extends Plugin {
 
   @PluginMethod
   public void getBoolean(PluginCall call) {
-    if (call.hasOption("key")) {
-      String key = call.getString("key");
+    String key = call.getString("key");
+    if (key != null) {
       JSObject result = new JSObject();
       result.put("key", key);
       result.put("value", getFirebaseRCValue(key).asBoolean());
       result.put("source", getFirebaseRCValue(key).getSource());
-      call.success(result);
+      call.resolve(result);
     } else {
       call.reject(ERROR_MISSING_KEY);
     }
@@ -132,13 +135,13 @@ public class FirebaseRemoteConfig extends Plugin {
 
   @PluginMethod
   public void getByteArray(PluginCall call) {
-    if (call.hasOption("key")) {
-      String key = call.getString("key");
+    String key = call.getString("key");
+    if (key != null) {
       JSObject result = new JSObject();
       result.put("key", key);
       result.put("value", getFirebaseRCValue(key).asByteArray());
       result.put("source", getFirebaseRCValue(key).getSource());
-      call.success(result);
+      call.resolve(result);
     } else {
       call.reject(ERROR_MISSING_KEY);
     }
@@ -146,13 +149,13 @@ public class FirebaseRemoteConfig extends Plugin {
 
   @PluginMethod
   public void getNumber(PluginCall call) {
-    if (call.hasOption("key")) {
-      String key = call.getString("key");
+    String key = call.getString("key");
+    if (key != null) {
       JSObject result = new JSObject();
       result.put("key", key);
       result.put("value", getFirebaseRCValue(key).asDouble());
       result.put("source", getFirebaseRCValue(key).getSource());
-      call.success(result);
+      call.resolve(result);
     } else {
       call.reject(ERROR_MISSING_KEY);
     }
@@ -160,13 +163,13 @@ public class FirebaseRemoteConfig extends Plugin {
 
   @PluginMethod
   public void getString(PluginCall call) {
-    if (call.hasOption("key")) {
-      String key = call.getString("key");
+    String key = call.getString("key");
+    if (key != null) {
       JSObject result = new JSObject();
       result.put("key", key);
       result.put("value", getFirebaseRCValue(key).asString());
       result.put("source", getFirebaseRCValue(key).getSource());
-      call.success(result);
+      call.resolve(result);
     } else {
       call.reject(ERROR_MISSING_KEY);
     }
@@ -174,7 +177,7 @@ public class FirebaseRemoteConfig extends Plugin {
 
   @PluginMethod
   public void initializeFirebase(PluginCall call) {
-    call.success();
+    call.resolve();
   }
 
   @PluginMethod
@@ -196,7 +199,7 @@ public class FirebaseRemoteConfig extends Plugin {
       this.mFirebaseRemoteConfig.setDefaultsAsync(resourceId);
     }
 
-    call.success();
+    call.resolve();
   }
 
   private FirebaseRemoteConfigValue getFirebaseRCValue(String key) {
