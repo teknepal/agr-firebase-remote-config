@@ -1,6 +1,6 @@
 {
   "name": "@joinflux/firebase-remote-config",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A native plugin for firebase remote config",
   "homepage": "https://github.com/joinflux/firebase-remote-config",
   "main": "dist/esm/index.js",
@@ -15,8 +15,8 @@
   "author": "Priyank Patel <priyank.patel@stackspace.ca>",
   "license": "MIT",
   "dependencies": {
-    "@capacitor/core": "latest",
-    "firebase": "^8.4.0"
+    "firebase": "^8.4.1",
+    "@capacitor/core": "^3.1.2"
   },
   "devDependencies": {
     "@capacitor/android": "latest",
