@@ -74,7 +74,7 @@ public class FirebaseRemoteConfig: CAPPlugin {
             let value = self.remoteConfig?.configValue(forKey: key).boolValue
             let source = self.remoteConfig?.configValue(forKey: key).source
             call.resolve([
-                "key": key! as String,
+                "key": key as String,
                 "value": value! as Bool,
                 "source": source!.rawValue as Int
             ])
@@ -88,7 +88,7 @@ public class FirebaseRemoteConfig: CAPPlugin {
             let value = self.remoteConfig?.configValue(forKey: key).numberValue
             let source = self.remoteConfig?.configValue(forKey: key).source
             call.resolve([
-                "key": key! as String,
+                "key": key as String,
                 "value": value!,
                 "source": source!.rawValue as Int
             ])
@@ -101,8 +101,8 @@ public class FirebaseRemoteConfig: CAPPlugin {
         if let key = call.getString("key") {
             let value = self.remoteConfig?.configValue(forKey: key).stringValue
             let source = self.remoteConfig?.configValue(forKey: key).source
-            call.success([
-                "key": key! as String,
+            call.resolve([
+                "key": key as String,
                 "value": value!,
                 "source": source!.rawValue as Int
             ])
