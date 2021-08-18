@@ -21,10 +21,7 @@ export class FirebaseRemoteConfigWeb
   private remoteConfigRef: firebase.remoteConfig.RemoteConfig;
 
   constructor() {
-    super({
-      name: "FirebaseRemoteConfig",
-      platforms: ["web"],
-    });
+    super();
   }
 
   async initializeFirebase(app: firebase.app.App) {
