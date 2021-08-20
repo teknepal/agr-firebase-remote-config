@@ -1,11 +1,5 @@
 import firebase from "firebase";
 
-declare module "@capacitor/core" {
-  interface PluginRegistry {
-    FirebaseRemoteConfig: FirebaseRemoteConfigPlugin;
-  }
-}
-
 export interface FirebaseRemoteConfigPlugin {
   initializeFirebase(app: firebase.app.App): Promise<void>;
   setDefaultConfig(options: any): Promise<void>;

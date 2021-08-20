@@ -1,12 +1,12 @@
-import { registerWebPlugin, WebPlugin } from "@capacitor/core";
-import {
-  FirebaseRemoteConfigPlugin,
-  RCValueOption,
-  RCReturnData,
-  initOptions,
-} from "./definitions";
+import { registerPlugin, WebPlugin } from "@capacitor/core";
 import firebase from "firebase";
 import "firebase/remote-config";
+import type {
+  FirebaseRemoteConfigPlugin,
+  initOptions,
+  RCReturnData,
+  RCValueOption,
+} from "./definitions";
 
 // Errors
 const ErrRemoteConfigNotInitialiazed = new Error(
@@ -14,15 +14,14 @@ const ErrRemoteConfigNotInitialiazed = new Error(
 );
 const ErrMissingDefaultConfig = new Error("No default configuration found");
 
-export class FirebaseRemoteConfigWeb extends WebPlugin
-  implements FirebaseRemoteConfigPlugin {
+export class FirebaseRemoteConfigWeb
+  extends WebPlugin
+  implements FirebaseRemoteConfigPlugin
+{
   private remoteConfigRef: firebase.remoteConfig.RemoteConfig;
 
   constructor() {
-    super({
-      name: "FirebaseRemoteConfig",
-      platforms: ["web"],
-    });
+    super();
   }
 
   async initializeFirebase(app: firebase.app.App) {
@@ -104,8 +103,11 @@ export class FirebaseRemoteConfigWeb extends WebPlugin
   }
 }
 
-const FirebaseRemoteConfig = new FirebaseRemoteConfigWeb();
+const FirebaseRemoteConfig = registerPlugin<FirebaseRemoteConfigWeb>(
+  "FirebaseRemoteConfig",
+  {
+    web: () => new FirebaseRemoteConfigWeb(),
+  }
+);
 
 export { FirebaseRemoteConfig };
-
-registerWebPlugin(FirebaseRemoteConfig);

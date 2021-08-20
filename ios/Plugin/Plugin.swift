@@ -35,13 +35,13 @@ public class FirebaseRemoteConfig: CAPPlugin {
         settings.minimumFetchInterval = TimeInterval(minFetchInterval)
         settings.fetchTimeout = TimeInterval(fetchTimeout)
         remoteConfig.configSettings = settings
-        call.success()
+        call.resolve()
     }
     
     @objc func fetch(_ call: CAPPluginCall) {
         self.remoteConfig?.fetch(completionHandler: { (status, error) in
             if status == .success {
-                call.success()
+                call.resolve()
                 return
             } 
             call.reject(error?.localizedDescription ?? "Error occured while executing fetch()")
@@ -54,7 +54,7 @@ public class FirebaseRemoteConfig: CAPPlugin {
             if error != nil {
                 call.reject(error?.localizedDescription ?? "Error occured while executing activate()")
             } else {
-                call.success()
+                call.resolve()
             }
         })
     }
@@ -62,7 +62,7 @@ public class FirebaseRemoteConfig: CAPPlugin {
     @objc func fetchAndActivate(_ call: CAPPluginCall) {
         self.remoteConfig?.fetchAndActivate(completionHandler: { (status, error) in
             if status == .successFetchedFromRemote || status == .successUsingPreFetchedData {
-                call.success()
+                call.resolve()
             } else {
                 call.reject("Error occured while executing failAndActivate()")
             }
@@ -70,73 +70,56 @@ public class FirebaseRemoteConfig: CAPPlugin {
     }
     
     @objc func getBoolean(_ call: CAPPluginCall) {
-        if call.hasOption("key") {
-            let key = call.getString("key")
-            
-            if key != nil {
-                let value = self.remoteConfig?.configValue(forKey: key).boolValue
-                let source = self.remoteConfig?.configValue(forKey: key).source
-                call.success([
-                    "key": key! as String,
-                    "value": value! as Bool,
-                    "source": source!.rawValue as Int
-                ])
-            } else {
-                call.reject("Key is missing")
-            }
+        if let key = call.getString("key") {
+            let value = self.remoteConfig?.configValue(forKey: key).boolValue
+            let source = self.remoteConfig?.configValue(forKey: key).source
+            call.resolve([
+                "key": key as String,
+                "value": value! as Bool,
+                "source": source!.rawValue as Int
+            ])
         } else {
             call.reject("Key is missing")
         }
     }
     
     @objc func getNumber(_ call: CAPPluginCall) {
-        if call.hasOption("key") {
-            let key = call.getString("key")
-            
-            if key != nil {
-                let value = self.remoteConfig?.configValue(forKey: key).numberValue
-                let source = self.remoteConfig?.configValue(forKey: key).source
-                call.success([
-                    "key": key! as String,
-                    "value": value!,
-                    "source": source!.rawValue as Int
-                ])
-            } else {
-                call.reject("Key is missing")
-            }
+        if let key = call.getString("key") {
+            let value = self.remoteConfig?.configValue(forKey: key).numberValue
+            let source = self.remoteConfig?.configValue(forKey: key).source
+            call.resolve([
+                "key": key as String,
+                "value": value!,
+                "source": source!.rawValue as Int
+            ])
         } else {
             call.reject("Key is missing")
         }
     }
     
     @objc func getString(_ call: CAPPluginCall) {
-        if call.hasOption("key") {
-            let key = call.getString("key")
-            
-            if key != nil {
-                let value = self.remoteConfig?.configValue(forKey: key).stringValue
-                let source = self.remoteConfig?.configValue(forKey: key).source
-                call.success([
-                    "key": key! as String,
-                    "value": value!,
-                    "source": source!.rawValue as Int
-                ])
-            } else {
-                call.reject("Key is missing")
-            }
+        if let key = call.getString("key") {
+            let value = self.remoteConfig?.configValue(forKey: key).stringValue
+            let source = self.remoteConfig?.configValue(forKey: key).source
+            call.resolve([
+                "key": key as String,
+                "value": value!,
+                "source": source!.rawValue as Int
+            ])
         } else {
             call.reject("Key is missing")
         }
     }
     
     @objc func getByteArray(_ call: CAPPluginCall) {
-        call.success()
+        call.unimplemented()
     }
 
     @objc func initializeFirebase(_ call: CAPPluginCall) {
         print("FirebaseRemoteConfig: initializeFirebase noop")
-        call.success()
+        call.resolve()
     }
+    
     @objc func setDefaultConfig(_ call: CAPPluginCall) {
         let standardUserDefaults = UserDefaults.standard
         let remoteConfigDefaults = standardUserDefaults.object(forKey: "FirebaseRemoteConfigDefaults".lowercased())
@@ -144,6 +127,6 @@ public class FirebaseRemoteConfig: CAPPlugin {
         if remoteConfigDefaults != nil {
             self.remoteConfig?.setDefaults(fromPlist: remoteConfigDefaults as? String)
         }
-        call.success()
+        call.resolve()
     }
 }
