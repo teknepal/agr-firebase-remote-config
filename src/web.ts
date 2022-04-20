@@ -70,11 +70,11 @@ export class FirebaseRemoteConfigWeb
     return;
   }
 
-  getBoolean(options: RCValueOption): Promise<RCReturnData> {
+  getBoolean(options: RCValueOption): Promise<RCReturnData<boolean>> {
     return this.getValue(options, "Boolean");
   }
 
-  getNumber(options: RCValueOption): Promise<RCReturnData> {
+  getNumber(options: RCValueOption): Promise<RCReturnData<number>> {
     return this.getValue(options, "Number");
   }
 
@@ -82,10 +82,10 @@ export class FirebaseRemoteConfigWeb
     return this.getValue(options, "String");
   }
 
-  private async getValue(
+  private async getValue<T>(
     options: RCValueOption,
     format: "String" | "Number" | "Boolean" = "String"
-  ): Promise<RCReturnData> {
+  ): Promise<RCReturnData<T>> {
     if (!this.remoteConfigRef)
       throw new Error(
         "Remote config is not initialized. Make sure initialize() is called at first."

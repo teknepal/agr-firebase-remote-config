@@ -7,9 +7,9 @@ export interface FirebaseRemoteConfigPlugin {
   fetch(): Promise<void>;
   activate(): Promise<void>;
   fetchAndActivate(): Promise<void>;
-  getBoolean(options: RCValueOption): Promise<RCReturnData>;
-  getNumber(options: RCValueOption): Promise<RCReturnData>;
-  getString(options: RCValueOption): Promise<RCReturnData>;
+  getBoolean(options: RCValueOption): Promise<RCReturnData<boolean>>;
+  getNumber(options: RCValueOption): Promise<RCReturnData<number>>;
+  getString(options: RCValueOption): Promise<RCReturnData<string>>;
 }
 
 export interface initOptions {
@@ -21,9 +21,9 @@ export interface RCValueOption {
   key: string;
 }
 
-export interface RCReturnData {
+export interface RCReturnData<T = string> {
   key: string;
-  value: string;
+  value: T;
   source: string;
 }
 
