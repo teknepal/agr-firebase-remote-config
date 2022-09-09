@@ -49,6 +49,7 @@ public class FirebaseRemoteConfig extends Plugin {
       .setFetchTimeoutInSeconds(minFetchTimeInSecs)
       .build();
     this.mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+    call.resolve();
   }
 
   @PluginMethod
