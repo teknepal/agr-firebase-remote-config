@@ -4,7 +4,8 @@ Capacitor community plugin for firebase remote config.
 
 ## Capacitor Compatibility
 
-Version 0.6.0+ is compatible with Capacitor 4
+Version 1.x.x is compatible with Capacitor 5
+Version 0.6.0 is compatible with Capacitor 4
 Please use 0.5.2 for Capacitor 3
 
 ## Installation
