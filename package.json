@@ -1,8 +1,8 @@
 {
-  "name": "@joinflux/firebase-remote-config",
+  "name": "agr-firebase-remote-config",
   "version": "1.0.0",
   "description": "A native plugin for firebase remote config",
-  "homepage": "https://github.com/joinflux/firebase-remote-config",
+  "homepage": "https://github.com/teknepal/firebase-remote-config",
   "main": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "scripts": {
@@ -38,7 +38,7 @@
     "dist/",
     "ios/",
     "android/",
-    "JoinfluxFirebaseRemoteConfig.podspec"
+    "teknepalFirebaseRemoteConfig.podspec"
   ],
   "keywords": [
     "capacitor",
@@ -55,9 +55,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/joinflux/firebase-remote-config"
+    "url": "https://github.com/teknepal/firebase-remote-config"
   },
   "bugs": {
-    "url": "https://github.com/joinflux/firebase-remote-config/issues"
+    "url": "https://github.com/teknepal/firebase-remote-config/issues"
   }
 }

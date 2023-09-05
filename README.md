@@ -13,13 +13,13 @@ Please use 0.5.2 for Capacitor 3
 To use npm
 
 ```bash
-npm install @joinflux/firebase-remote-config
+npm install @teknepal/firebase-remote-config
 ```
 
 To use yarn
 
 ```bash
-yarn add @joinflux/firebase-remote-config
+yarn add @teknepal/firebase-remote-config
 ```
 
 Sync native files
@@ -85,7 +85,7 @@ it in the correct platform app directory.
 
 ```typescript
 // Must import the package once to make sure the web support initializes
-import "@joinflux/firebase-remote-config";
+import "@teknepal/firebase-remote-config";
 
 import { Plugins } from "@capacitor/core";
 
