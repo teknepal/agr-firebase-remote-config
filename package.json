@@ -1,6 +1,6 @@
 {
   "name": "agr-firebase-remote-config",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A native plugin for firebase remote config",
   "homepage": "https://github.com/teknepal/firebase-remote-config",
   "main": "dist/esm/index.js",
@@ -38,7 +38,7 @@
     "dist/",
     "ios/",
     "android/",
-    "teknepalFirebaseRemoteConfig.podspec"
+    "AgrFirebaseRemoteConfig.podspec"
   ],
   "keywords": [
     "capacitor",
